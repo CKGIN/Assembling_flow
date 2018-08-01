@@ -6,6 +6,8 @@
 //#include <AMONet.h>
 //#include <AMONetError.h>
 
+extern UINT	m_RingNo;
+
 I16 Amotnet_init();
 I16 ring_init();
 

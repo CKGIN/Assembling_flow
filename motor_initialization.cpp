@@ -1,9 +1,7 @@
 #include "motor_initialization.h"
 
-long	m_lCommand;
-long	m_lPosition;
-UINT	m_RingNo=0;
 
+UINT m_RingNo=0;
 
 
 I16 Amotnet_init()
@@ -91,7 +89,7 @@ I16 Xshift_init()
     if(!ErrorHandler(nRet))                //(*,*,*,0 = 關閉SD訊號,1 =Low active,0 = 關閉SD閂控制,0 = 純減速(1=減速並停止))
          return 1;
 
-    nRet = _mnet_m4_set_alm( m_RingNo, m_DeviceIP, AxisNum, ui->Combo_ALM->currentIndex(), 0 );
+    nRet = _mnet_m4_set_alm( m_RingNo, m_DeviceIP, AxisNum, 1 , 0 );
     if(!ErrorHandler(nRet))                //(*,*,*,0=High Active 1=Low Active,0=收到緊急訊號後立即停止)
          return 1;
 
@@ -103,6 +101,7 @@ I16 Xshift_init()
     if(!ErrorHandler(nRet))                //設置梯形速度(*,*,*,初速(PPS),最大速度(PPS),加速時間(s),減速時間(s))
          return 1;
 
+    return 0;
 }
 
 I16 Yshift_init()
@@ -145,7 +144,7 @@ I16 Yshift_init()
     if(!ErrorHandler(nRet))                //(*,*,*,0 = 關閉SD訊號,1 =Low active,0 = 關閉SD閂控制,0 = 純減速(1=減速並停止))
          return 1;
 
-    nRet = _mnet_m4_set_alm( m_RingNo, m_DeviceIP, AxisNum, ui->Combo_ALM->currentIndex(), 0 );
+    nRet = _mnet_m4_set_alm( m_RingNo, m_DeviceIP, AxisNum, 1 , 0 );
     if(!ErrorHandler(nRet))                //(*,*,*,0=High Active 1=Low Active,0=收到緊急訊號後立即停止)
          return 1;
 
@@ -156,6 +155,8 @@ I16 Yshift_init()
     nRet = _mnet_m4_set_tmove_speed(m_RingNo, m_DeviceIP, AxisNum, 3000, 15000, 0.3, 0.3);
     if(!ErrorHandler(nRet))                //設置梯形速度(*,*,*,初速(PPS),最大速度(PPS),加速時間(s),減速時間(s))
          return 1;
+
+    return 0;
 }
 
 I16 Zshift_init()
@@ -198,7 +199,7 @@ I16 Zshift_init()
     if(!ErrorHandler(nRet))                //(*,*,*,0 = 關閉SD訊號,1 =Low active,0 = 關閉SD閂控制,0 = 純減速(1=減速並停止))
          return 1;
 
-    nRet = _mnet_m4_set_alm( m_RingNo, m_DeviceIP, AxisNum, ui->Combo_ALM->currentIndex(), 0 );
+    nRet = _mnet_m4_set_alm( m_RingNo, m_DeviceIP, AxisNum, 1 , 0 );
     if(!ErrorHandler(nRet))                //(*,*,*,0=High Active 1=Low Active,0=收到緊急訊號後立即停止)
          return 1;
 
@@ -209,6 +210,8 @@ I16 Zshift_init()
     nRet = _mnet_m4_set_tmove_speed(m_RingNo, m_DeviceIP, AxisNum, 3000, 15000, 0.3, 0.3);
     if(!ErrorHandler(nRet))                //設置梯形速度(*,*,*,初速(PPS),最大速度(PPS),加速時間(s),減速時間(s))
          return 1;
+
+    return 0;
 }
 
 I16 Xtilt_init()
@@ -251,7 +254,7 @@ I16 Xtilt_init()
     if(!ErrorHandler(nRet))                //(*,*,*,0 = 關閉SD訊號,1 =Low active,0 = 關閉SD閂控制,0 = 純減速(1=減速並停止))
          return 1;
 
-    nRet = _mnet_m4_set_alm( m_RingNo, m_DeviceIP, AxisNum, ui->Combo_ALM->currentIndex(), 0 );
+    nRet = _mnet_m4_set_alm( m_RingNo, m_DeviceIP, AxisNum, 1, 0 );
     if(!ErrorHandler(nRet))                //(*,*,*,0=High Active 1=Low Active,0=收到緊急訊號後立即停止)
          return 1;
 
@@ -262,6 +265,8 @@ I16 Xtilt_init()
     nRet = _mnet_m4_set_tmove_speed(m_RingNo, m_DeviceIP, AxisNum, 3000, 15000, 0.3, 0.3);
     if(!ErrorHandler(nRet))                //設置梯形速度(*,*,*,初速(PPS),最大速度(PPS),加速時間(s),減速時間(s))
          return 1;
+
+    return 0;
 }
 
 I16 Ytilt_init()
@@ -304,7 +309,7 @@ I16 Ytilt_init()
     if(!ErrorHandler(nRet))                //(*,*,*,0 = 關閉SD訊號,1 =Low active,0 = 關閉SD閂控制,0 = 純減速(1=減速並停止))
          return 1;
 
-    nRet = _mnet_m4_set_alm( m_RingNo, m_DeviceIP, AxisNum, ui->Combo_ALM->currentIndex(), 0 );
+    nRet = _mnet_m4_set_alm( m_RingNo, m_DeviceIP, AxisNum, 1 , 0 );
     if(!ErrorHandler(nRet))                //(*,*,*,0=High Active 1=Low Active,0=收到緊急訊號後立即停止)
          return 1;
 
@@ -315,6 +320,8 @@ I16 Ytilt_init()
     nRet = _mnet_m4_set_tmove_speed(m_RingNo, m_DeviceIP, AxisNum, 3000, 15000, 0.3, 0.3);
     if(!ErrorHandler(nRet))                //設置梯形速度(*,*,*,初速(PPS),最大速度(PPS),加速時間(s),減速時間(s))
          return 1;
+
+    return 0;
 }
 
 I16 Rotate_init()
@@ -357,7 +364,7 @@ I16 Rotate_init()
     if(!ErrorHandler(nRet))                //(*,*,*,0 = 關閉SD訊號,1 =Low active,0 = 關閉SD閂控制,0 = 純減速(1=減速並停止))
          return 1;
 
-    nRet = _mnet_m4_set_alm( m_RingNo, m_DeviceIP, AxisNum, ui->Combo_ALM->currentIndex(), 0 );
+    nRet = _mnet_m4_set_alm( m_RingNo, m_DeviceIP, AxisNum, 1 , 0 );
     if(!ErrorHandler(nRet))                //(*,*,*,0=High Active 1=Low Active,0=收到緊急訊號後立即停止)
          return 1;
 
@@ -368,6 +375,8 @@ I16 Rotate_init()
     nRet = _mnet_m4_set_tmove_speed(m_RingNo, m_DeviceIP, AxisNum, 3000, 15000, 0.3, 0.3);
     if(!ErrorHandler(nRet))                //設置梯形速度(*,*,*,初速(PPS),最大速度(PPS),加速時間(s),減速時間(s))
          return 1;
+
+    return 0;
 }
 
 I16 Xglue_init()
@@ -410,7 +419,7 @@ I16 Xglue_init()
     if(!ErrorHandler(nRet))                //(*,*,*,0 = 關閉SD訊號,1 =Low active,0 = 關閉SD閂控制,0 = 純減速(1=減速並停止))
          return 1;
 
-    nRet = _mnet_m4_set_alm( m_RingNo, m_DeviceIP, AxisNum, ui->Combo_ALM->currentIndex(), 0 );
+    nRet = _mnet_m4_set_alm( m_RingNo, m_DeviceIP, AxisNum, 1 , 0 );
     if(!ErrorHandler(nRet))                //(*,*,*,0=High Active 1=Low Active,0=收到緊急訊號後立即停止)
          return 1;
 
@@ -421,6 +430,8 @@ I16 Xglue_init()
     nRet = _mnet_m4_set_tmove_speed(m_RingNo, m_DeviceIP, AxisNum, 3000, 15000, 0.3, 0.3);
     if(!ErrorHandler(nRet))                //設置梯形速度(*,*,*,初速(PPS),最大速度(PPS),加速時間(s),減速時間(s))
          return 1;
+
+    return 0;
 }
 
 I16 Yglue_init()
@@ -463,7 +474,7 @@ I16 Yglue_init()
     if(!ErrorHandler(nRet))                //(*,*,*,0 = 關閉SD訊號,1 =Low active,0 = 關閉SD閂控制,0 = 純減速(1=減速並停止))
          return 1;
 
-    nRet = _mnet_m4_set_alm( m_RingNo, m_DeviceIP, AxisNum, ui->Combo_ALM->currentIndex(), 0 );
+    nRet = _mnet_m4_set_alm( m_RingNo, m_DeviceIP, AxisNum, 1 , 0 );
     if(!ErrorHandler(nRet))                //(*,*,*,0=High Active 1=Low Active,0=收到緊急訊號後立即停止)
          return 1;
 
@@ -474,5 +485,7 @@ I16 Yglue_init()
     nRet = _mnet_m4_set_tmove_speed(m_RingNo, m_DeviceIP, AxisNum, 3000, 15000, 0.3, 0.3);
     if(!ErrorHandler(nRet))                //設置梯形速度(*,*,*,初速(PPS),最大速度(PPS),加速時間(s),減速時間(s))
          return 1;
+
+    return 0;
 }
 
