@@ -13,8 +13,17 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    motor_initialization.cpp \
+    error_holder.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    motor_initialization.h \
+    error_holder.h
 
 FORMS    += mainwindow.ui
+
+INCLUDEPATH += $$quote(C:\Program Files (x86)\Advantech\AMONet\Include)\
+               $$quote(C:\Program Files\Advantech\AMONet\Include)
+
+LIBS += $$quote(C:\Program Files (x86)\Advantech\AMONet\Lib\AMONet.lib)\
