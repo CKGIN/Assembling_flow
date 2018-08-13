@@ -3,6 +3,14 @@
 
 UINT m_RingNo=0;
 
+extern INT	X_shift_pos=0;
+extern INT	Y_shift_pos=0;
+extern INT	Z_shift_pos=0;
+extern INT	X_tilt_pos=0;
+extern INT	Y_tilt_pos=0;
+extern INT	Rotion_pos=0;
+extern INT	X_gule_pos=0;
+extern INT	Y_gule_pos=0;
 
 I16 Amotnet_init()
 {
@@ -46,6 +54,14 @@ I16 ring_init()
     if(!ErrorHandler(nRet))                                     //檢測邏輯流程執行序是否有問題
          return 1;
 
+    nRet = _mnet_m4_initial(m_RingNo, 2);
+    if(!ErrorHandler(nRet))                //初始化軸卡
+         return 1;
+
+    nRet = _mnet_m4_initial(m_RingNo, 4);
+    if(!ErrorHandler(nRet))                //初始化軸卡
+         return 1;
+
     return 0;
 }
 
@@ -55,9 +71,7 @@ I16 Xshift_init()
     UINT    m_DeviceIP = 2;
     int     AxisNum = 0;
 
-    nRet = _mnet_m4_initial(m_RingNo, m_DeviceIP);
-    if(!ErrorHandler(nRet))                //初始化軸卡
-         return 1;
+
 
     //default setting
 
@@ -69,7 +83,7 @@ I16 Xshift_init()
     if(!ErrorHandler(nRet))                //設定編碼器輸出脈衝(*,*,*,7 = CW/CCW)
          return 1;
 
-    nRet = _mnet_m4_set_feedback_src(m_RingNo, m_DeviceIP, AxisNum, 0);
+    nRet = _mnet_m4_set_feedback_src(m_RingNo, m_DeviceIP, AxisNum, 1);
     if(!ErrorHandler(nRet))                //設定位置輸入計數訊號(*,*,*,0 = External Feedback)
          return 1;
 
@@ -99,6 +113,10 @@ I16 Xshift_init()
 
     nRet = _mnet_m4_set_tmove_speed(m_RingNo, m_DeviceIP, AxisNum, 3000, 15000, 0.3, 0.3);
     if(!ErrorHandler(nRet))                //設置梯形速度(*,*,*,初速(PPS),最大速度(PPS),加速時間(s),減速時間(s))
+         return 1;
+
+    nRet = _mnet_m4_set_home_config( m_RingNo, m_DeviceIP, AxisNum, 6, 1, 1, 0, 0);
+    if(!ErrorHandler(nRet))                //Home參數設置(*,*,*,home_mode,org_logic,ez_logic,ez_count,erc_out)
          return 1;
 
     return 0;
@@ -110,10 +128,6 @@ I16 Yshift_init()
     UINT    m_DeviceIP = 2;
     int     AxisNum = 1;
 
-    nRet = _mnet_m4_initial(m_RingNo, m_DeviceIP);
-    if(!ErrorHandler(nRet))                //初始化軸卡
-         return 1;
-
     //default setting
 
     nRet = _mnet_m4_set_pls_iptmode(m_RingNo, m_DeviceIP, AxisNum, 1, 0);
@@ -124,7 +138,7 @@ I16 Yshift_init()
     if(!ErrorHandler(nRet))                //設定編碼器輸出脈衝(*,*,*,7 = CW/CCW)
          return 1;
 
-    nRet = _mnet_m4_set_feedback_src(m_RingNo, m_DeviceIP, AxisNum, 0);
+    nRet = _mnet_m4_set_feedback_src(m_RingNo, m_DeviceIP, AxisNum, 1);
     if(!ErrorHandler(nRet))                //設定位置輸入計數訊號(*,*,*,0 = External Feedback)
          return 1;
 
@@ -154,6 +168,10 @@ I16 Yshift_init()
 
     nRet = _mnet_m4_set_tmove_speed(m_RingNo, m_DeviceIP, AxisNum, 3000, 15000, 0.3, 0.3);
     if(!ErrorHandler(nRet))                //設置梯形速度(*,*,*,初速(PPS),最大速度(PPS),加速時間(s),減速時間(s))
+         return 1;
+
+    nRet = _mnet_m4_set_home_config( m_RingNo, m_DeviceIP, AxisNum, 6, 1, 1, 0, 0);
+    if(!ErrorHandler(nRet))                //Home參數設置(*,*,*,home_mode,org_logic,ez_logic,ez_count,erc_out)
          return 1;
 
     return 0;
@@ -165,10 +183,6 @@ I16 Zshift_init()
     UINT    m_DeviceIP = 4;
     int     AxisNum = 0;
 
-    nRet = _mnet_m4_initial(m_RingNo, m_DeviceIP);
-    if(!ErrorHandler(nRet))                //初始化軸卡
-         return 1;
-
     //default setting
 
     nRet = _mnet_m4_set_pls_iptmode(m_RingNo, m_DeviceIP, AxisNum, 1, 0);
@@ -179,7 +193,7 @@ I16 Zshift_init()
     if(!ErrorHandler(nRet))                //設定編碼器輸出脈衝(*,*,*,7 = CW/CCW)
          return 1;
 
-    nRet = _mnet_m4_set_feedback_src(m_RingNo, m_DeviceIP, AxisNum, 0);
+    nRet = _mnet_m4_set_feedback_src(m_RingNo, m_DeviceIP, AxisNum, 1);
     if(!ErrorHandler(nRet))                //設定位置輸入計數訊號(*,*,*,0 = External Feedback)
          return 1;
 
@@ -211,6 +225,10 @@ I16 Zshift_init()
     if(!ErrorHandler(nRet))                //設置梯形速度(*,*,*,初速(PPS),最大速度(PPS),加速時間(s),減速時間(s))
          return 1;
 
+    nRet = _mnet_m4_set_home_config( m_RingNo, m_DeviceIP, AxisNum, 1, 1, 1, 0, 0);
+    if(!ErrorHandler(nRet))                //Home參數設置(*,*,*home_mode,org_logic,ez_logic,ez_count,erc_out)
+         return 1;
+
     return 0;
 }
 
@@ -219,10 +237,6 @@ I16 Xtilt_init()
     SHORT   nRet;
     UINT    m_DeviceIP = 2;
     int     AxisNum = 3;
-
-    nRet = _mnet_m4_initial(m_RingNo, m_DeviceIP);
-    if(!ErrorHandler(nRet))                //初始化軸卡
-         return 1;
 
     //default setting
 
@@ -234,7 +248,7 @@ I16 Xtilt_init()
     if(!ErrorHandler(nRet))                //設定編碼器輸出脈衝(*,*,*,7 = CW/CCW)
          return 1;
 
-    nRet = _mnet_m4_set_feedback_src(m_RingNo, m_DeviceIP, AxisNum, 0);
+    nRet = _mnet_m4_set_feedback_src(m_RingNo, m_DeviceIP, AxisNum, 1);
     if(!ErrorHandler(nRet))                //設定位置輸入計數訊號(*,*,*,0 = External Feedback)
          return 1;
 
@@ -266,6 +280,10 @@ I16 Xtilt_init()
     if(!ErrorHandler(nRet))                //設置梯形速度(*,*,*,初速(PPS),最大速度(PPS),加速時間(s),減速時間(s))
          return 1;
 
+    nRet = _mnet_m4_set_home_config( m_RingNo, m_DeviceIP, AxisNum, 6, 1, 1, 0, 0);
+    if(!ErrorHandler(nRet))                //Home參數設置(*,*,*,home_mode,org_logic,ez_logic,ez_count,erc_out)
+         return 1;
+
     return 0;
 }
 
@@ -274,10 +292,6 @@ I16 Ytilt_init()
     SHORT   nRet;
     UINT    m_DeviceIP = 2;
     int     AxisNum = 2;
-
-    nRet = _mnet_m4_initial(m_RingNo, m_DeviceIP);
-    if(!ErrorHandler(nRet))                //初始化軸卡
-         return 1;
 
     //default setting
 
@@ -289,7 +303,7 @@ I16 Ytilt_init()
     if(!ErrorHandler(nRet))                //設定編碼器輸出脈衝(*,*,*,7 = CW/CCW)
          return 1;
 
-    nRet = _mnet_m4_set_feedback_src(m_RingNo, m_DeviceIP, AxisNum, 0);
+    nRet = _mnet_m4_set_feedback_src(m_RingNo, m_DeviceIP, AxisNum, 1);
     if(!ErrorHandler(nRet))                //設定位置輸入計數訊號(*,*,*,0 = External Feedback)
          return 1;
 
@@ -319,6 +333,10 @@ I16 Ytilt_init()
 
     nRet = _mnet_m4_set_tmove_speed(m_RingNo, m_DeviceIP, AxisNum, 3000, 15000, 0.3, 0.3);
     if(!ErrorHandler(nRet))                //設置梯形速度(*,*,*,初速(PPS),最大速度(PPS),加速時間(s),減速時間(s))
+         return 1;
+
+    nRet = _mnet_m4_set_home_config( m_RingNo, m_DeviceIP, AxisNum, 6, 1, 1, 0, 0);
+    if(!ErrorHandler(nRet))                //Home參數設置(*,*,*,home_mode,org_logic,ez_logic,ez_count,erc_out)
          return 1;
 
     return 0;
@@ -330,10 +348,6 @@ I16 Rotate_init()
     UINT    m_DeviceIP = 4;
     int     AxisNum = 1;
 
-    nRet = _mnet_m4_initial(m_RingNo, m_DeviceIP);
-    if(!ErrorHandler(nRet))                //初始化軸卡
-         return 1;
-
     //default setting
 
     nRet = _mnet_m4_set_pls_iptmode(m_RingNo, m_DeviceIP, AxisNum, 1, 0);
@@ -344,7 +358,7 @@ I16 Rotate_init()
     if(!ErrorHandler(nRet))                //設定編碼器輸出脈衝(*,*,*,7 = CW/CCW)
          return 1;
 
-    nRet = _mnet_m4_set_feedback_src(m_RingNo, m_DeviceIP, AxisNum, 0);
+    nRet = _mnet_m4_set_feedback_src(m_RingNo, m_DeviceIP, AxisNum, 1);
     if(!ErrorHandler(nRet))                //設定位置輸入計數訊號(*,*,*,0 = External Feedback)
          return 1;
 
@@ -374,6 +388,10 @@ I16 Rotate_init()
 
     nRet = _mnet_m4_set_tmove_speed(m_RingNo, m_DeviceIP, AxisNum, 3000, 15000, 0.3, 0.3);
     if(!ErrorHandler(nRet))                //設置梯形速度(*,*,*,初速(PPS),最大速度(PPS),加速時間(s),減速時間(s))
+         return 1;
+
+    nRet = _mnet_m4_set_home_config( m_RingNo, m_DeviceIP, AxisNum, 6, 1, 1, 0, 0);
+    if(!ErrorHandler(nRet))                //Home參數設置(*,*,*,home_mode,org_logic,ez_logic,ez_count,erc_out)
          return 1;
 
     return 0;
@@ -385,10 +403,6 @@ I16 Xglue_init()
     UINT    m_DeviceIP = 4;
     int     AxisNum = 2;
 
-    nRet = _mnet_m4_initial(m_RingNo, m_DeviceIP);
-    if(!ErrorHandler(nRet))                //初始化軸卡
-         return 1;
-
     //default setting
 
     nRet = _mnet_m4_set_pls_iptmode(m_RingNo, m_DeviceIP, AxisNum, 1, 0);
@@ -399,7 +413,7 @@ I16 Xglue_init()
     if(!ErrorHandler(nRet))                //設定編碼器輸出脈衝(*,*,*,7 = CW/CCW)
          return 1;
 
-    nRet = _mnet_m4_set_feedback_src(m_RingNo, m_DeviceIP, AxisNum, 0);
+    nRet = _mnet_m4_set_feedback_src(m_RingNo, m_DeviceIP, AxisNum, 1);
     if(!ErrorHandler(nRet))                //設定位置輸入計數訊號(*,*,*,0 = External Feedback)
          return 1;
 
@@ -429,6 +443,10 @@ I16 Xglue_init()
 
     nRet = _mnet_m4_set_tmove_speed(m_RingNo, m_DeviceIP, AxisNum, 3000, 15000, 0.3, 0.3);
     if(!ErrorHandler(nRet))                //設置梯形速度(*,*,*,初速(PPS),最大速度(PPS),加速時間(s),減速時間(s))
+         return 1;
+
+    nRet = _mnet_m4_set_home_config( m_RingNo, m_DeviceIP, AxisNum, 6, 0, 1, 0, 0);
+    if(!ErrorHandler(nRet))                //Home參數設置(*,*,*,home_mode,org_logic,ez_logic,ez_count,erc_out)
          return 1;
 
     return 0;
@@ -440,10 +458,6 @@ I16 Yglue_init()
     UINT    m_DeviceIP = 4;
     int     AxisNum = 3;
 
-    nRet = _mnet_m4_initial(m_RingNo, m_DeviceIP);
-    if(!ErrorHandler(nRet))                //初始化軸卡
-         return 1;
-
     //default setting
 
     nRet = _mnet_m4_set_pls_iptmode(m_RingNo, m_DeviceIP, AxisNum, 1, 0);
@@ -454,7 +468,7 @@ I16 Yglue_init()
     if(!ErrorHandler(nRet))                //設定編碼器輸出脈衝(*,*,*,7 = CW/CCW)
          return 1;
 
-    nRet = _mnet_m4_set_feedback_src(m_RingNo, m_DeviceIP, AxisNum, 0);
+    nRet = _mnet_m4_set_feedback_src(m_RingNo, m_DeviceIP, AxisNum, 1);
     if(!ErrorHandler(nRet))                //設定位置輸入計數訊號(*,*,*,0 = External Feedback)
          return 1;
 
@@ -486,6 +500,67 @@ I16 Yglue_init()
     if(!ErrorHandler(nRet))                //設置梯形速度(*,*,*,初速(PPS),最大速度(PPS),加速時間(s),減速時間(s))
          return 1;
 
+    nRet = _mnet_m4_set_home_config( m_RingNo, m_DeviceIP, AxisNum, 6, 0, 1, 0, 0);
+    if(!ErrorHandler(nRet))                //Home參數設置(*,*,*,home_mode,org_logic,ez_logic,ez_count,erc_out)
+         return 1;
+
     return 0;
 }
 
+I16 motor_r_move(UINT m_DeviceIP, UINT AxisNum, FLOAT StrVel, FLOAT MaxVel, FLOAT Tacc, FLOAT Tdec,int distance)
+{
+    SHORT   nRet;
+    U16* asd = new U16;
+    int test=1;
+
+    nRet = _mnet_m4_set_svon(m_RingNo, m_DeviceIP, AxisNum, 1);
+    if(!ErrorHandler(nRet))
+        return 1;
+
+    nRet = _mnet_m4_set_tmove_speed( m_RingNo, m_DeviceIP, AxisNum, StrVel, MaxVel, Tacc, Tdec);
+    if(!ErrorHandler(nRet))
+        return 1;
+
+    nRet = _mnet_m4_start_r_move(m_RingNo, m_DeviceIP, AxisNum, distance);
+    if(!ErrorHandler(nRet))
+        return 1;
+
+    while(test)
+    {
+        _mnet_m4_motion_done(m_RingNo, m_DeviceIP, AxisNum, *asd);
+        test=*asd;
+    }
+    //QMessageBox::information(NULL,"Waring",QString("move-%01").arg(test));
+
+    return 0;
+}
+
+I16 motor_home(UINT m_DeviceIP, UINT AxisNum, FLOAT StrVel, FLOAT MaxVel, FLOAT Tacc, FLOAT Tdec, CHAR way)
+{
+    SHORT   nRet;
+    U16* asd = new U16;
+    int test=1;
+
+    nRet = _mnet_m4_set_svon(m_RingNo, m_DeviceIP, AxisNum, 1);
+    if(!ErrorHandler(nRet))
+        return 1;
+
+    nRet = _mnet_m4_set_tmove_speed( m_RingNo, m_DeviceIP, AxisNum, StrVel, MaxVel, Tacc, Tdec);
+    if(!ErrorHandler(nRet))
+        return 1;
+
+    nRet = _mnet_m4_start_home_move( m_RingNo, m_DeviceIP, AxisNum, way);
+    if(!ErrorHandler(nRet))
+        return 1;
+
+
+    while(test)
+    {
+        _mnet_m4_motion_done(m_RingNo, m_DeviceIP, AxisNum, *asd);
+        test=*asd;
+    }
+    //QMessageBox::information(NULL,"Waring",QString("home-%01").arg(test));
+
+
+    return 0;
+}

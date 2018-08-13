@@ -6,6 +6,8 @@
 #include <Qtimer>
 
 #include "motor_initialization.h"
+#include "i_o_control.h"
+
 
 namespace Ui {
 class MainWindow;
@@ -21,6 +23,8 @@ public:
 
 private slots:
     void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
 
 private:
     Ui::MainWindow *ui;
